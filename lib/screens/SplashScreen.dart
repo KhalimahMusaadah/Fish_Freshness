@@ -22,21 +22,39 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Background putih
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Logo dari assets
-            Image.asset(
-              'assets/images/logo.png',
-              width: 150, // Sesuaikan ukuran
-              height: 150,
-            ),
+            // Logo with error handling
+            _buildLogo(),
             SizedBox(height: 20),
+            // Loading indicator with custom color
+            CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.blueAccent),
+              strokeWidth: 3,
+            ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildLogo() {
+    return Image.asset(
+      'assets/images/logo.png',
+      width: 150,
+      height: 150,
+      errorBuilder: (context, error, stackTrace) {
+        debugPrint("Error loading logo: $error");
+        return Container(
+          width: 150,
+          height: 150,
+          color: Colors.grey[200],
+          child: Icon(Icons.image_not_supported, color: Colors.grey),
+        );
+      },
     );
   }
 }
