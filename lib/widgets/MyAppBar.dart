@@ -7,25 +7,25 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{ //cari ta
   final VoidCallback? onBackPressed;
 
   const MyAppBar({
-    Key? key,
+    super.key,
     required this.title, //kudu terisi ya gan
     this.actions,
-    required this.showBackButton,
+    this.showBackButton = false,
     this.onBackPressed
-  }) : super(key: key):
+  });
 
   @override
-  widget build(BuildContext context){
+  Widget build(BuildContext context){
     return AppBar(
       title: Text(
         title,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: Color.white,
+          color: Colors.white,
         ),
       ),
-      centerTitle: True,
+      centerTitle: true,
       backgroundColor: Colors.blueAccent,
       elevation: 0,
       leading: showBackButton ? IconButton(
@@ -43,11 +43,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{ //cari ta
   }
 
   @override
-  Size get PreferredSize => Size.fromHeight(kToolbarHeight);
-  
-  @override
-  // TODO: implement preferredSize
-  Size get preferredSize => throw UnimplementedError();
-
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }
 
