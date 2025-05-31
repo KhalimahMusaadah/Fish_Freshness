@@ -27,10 +27,10 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Logo with error handling
+            // error handling logo
             _buildLogo(),
             SizedBox(height: 20),
-            // Loading indicator with custom color
+            // loading indicator
             CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(Colors.blueAccent),
               strokeWidth: 3,
