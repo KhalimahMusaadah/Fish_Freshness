@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import '../widgets/MyAppBar.dart';
 import '../widgets/PersistentBottomBar.dart';
+import '../screens/DeteksiPage.dart';
+import '../screens/PanduanPage.dart';
+import '../utils/appbar_helper.dart';
+
 
 class HomePage extends StatefulWidget{
   @override
@@ -13,24 +17,20 @@ class _HomePageState extends State<HomePage>{
   //daftar halaman
   final List<Widget> _pages = [
     _HomeContent(), //untuk halaman home, berarti bikin class _HomeContent
-    PlaceholderWidget(title: 'Deteksi'),
-    PlaceholderWidget(title: 'Panduan'),
+    const DeteksiPage(),
+    const PanduanPage(),
   ];
 
   @override
   Widget build(BuildContext context){
     return Scaffold(
       appBar: MyAppBar(
-        title: 'Beranda',
+        title: getAppBarTitle(_currentIndex),
       ),
       body: _pages[_currentIndex],
       bottomNavigationBar: PersistentBottomBar(
-        currentIndex:  _currentIndex,
-        onTap: (index){
-          setState((){
-            _currentIndex = index;
-          });
-        },
+        currentIndex: _currentIndex,
+        onTap: (index) => setState(() => _currentIndex = index),
       ),
     );
   }

@@ -11,15 +11,15 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{ //cari ta
     required this.title, //kudu terisi ya gan
     this.actions,
     this.showBackButton = false,
-    this.onBackPressed
+    this.onBackPressed,
   });
 
   @override
   Widget build(BuildContext context){
     return AppBar(
       title: Text(
-        title,
-        style: TextStyle(
+        title, // Use the provided title directly
+        style: const TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
           color: Colors.white,
