@@ -73,6 +73,41 @@ class DeteksiPage extends StatefulWidget{
         title: 'Deteksi',
         showBackButton: true,
       ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            //tombol kamera
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.camera_alt),
+                  label: const Text('Kamera'),
+                  onPressed: () => _getImage(ImageSource.camera),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  ),
+                ),
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.photo_library),
+                  label: const Text('Galeri'),
+                  onPressed: () => _getImage(ImageSource.camera),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+
+            //tampilan gambar
+
+            
+          ],
+        )
+      )
     )
   }
  }
