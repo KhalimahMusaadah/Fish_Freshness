@@ -103,8 +103,45 @@ class DeteksiPage extends StatefulWidget{
             const SizedBox(height: 20),
 
             //tampilan gambar
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: _selectedImage == null
+                  ? const Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.image, size = 50, color: Colors.grey),
+                        SizedBox(height: 8),
+                        Text('Belum ada gambar dipilih'),
+                      ],
+                    ),
+                  )
+                  :Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Image.file(_selectedImage!, fit: BoxFit.contain),
+                      if (_isProcessing)
+                        Container(
+                          color: Colors.black54,
+                          child: const Center(
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+              ),
+            ),
+            const SizedBox(height: 20), 
 
+            //buat hasil deteksi
             
+
           ],
         )
       )
