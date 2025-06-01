@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage>{
       appBar: MyAppBar(
         title: getAppBarTitle(_currentIndex),
       ),
-      body: _pages[_currentIndex],
+      body: _pages[_currentIndex], 
       bottomNavigationBar: PersistentBottomBar(
         currentIndex: _currentIndex,
         onTap: (index) => setState(() => _currentIndex = index),
