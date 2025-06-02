@@ -140,12 +140,57 @@ class DeteksiPage extends StatefulWidget{
             const SizedBox(height: 20), 
 
             //buat hasil deteksi
-            
+            if (_detectionResult != null)
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: _detectionResult == 'Segar' ? Colors.green.withOpacity(0.2) : Colors.red.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  'Hasil: $_detectionResult',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: _detectionResult == 'Segar' ? Colors.green : Color.red,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+
+            const SizedBox(height: 20),
+
+            //untuk tombol deteksi
+            ElevatedButton(
+              onPressed: _selectedImage == null || _isProcessing ? null : _detectImage,
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                backgroundColor: Colors.blueAccent,
+                disabledBackgroundColor: Colors.grey,
+              ),
+              child: _isProcessing ? const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Text('Memproses...'),
+                ],
+              ) : const Text(
+                'Deteksi Sekarang',
+                style: TextStyle(fontSize: 16)
+                ),
+            ),
 
           ],
-        )
-      )
-    )
+        ),
+      ),
+    );
   }
- }
 }
