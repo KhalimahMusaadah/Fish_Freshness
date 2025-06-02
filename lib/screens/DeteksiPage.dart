@@ -78,10 +78,6 @@ class _DeteksiPageState extends State<DeteksiPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(
-        title: 'Deteksi',
-        showBackButton: true,
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
