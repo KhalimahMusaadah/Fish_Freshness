@@ -28,6 +28,9 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  image_picker: ^1.0.2
+  image_cropper: ^4.0.1
+  tflite_flutter: ^0.9.0
   flutter:
     sdk: flutter
 
