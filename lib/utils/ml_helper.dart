@@ -1,4 +1,4 @@
-import 'package:tflite_flutter/tflite_flutter.dart';
+import 'dart:io';
 
 class MLHelper {
   static Future<String> classifyImage(File image) async {

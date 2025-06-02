@@ -4,22 +4,32 @@ import 'package:image_cropper/image_cropper.dart';
 import 'dart:io';
 import '../widgets/MyAppBar.dart';
 
-class DeteksiPage extends StatefulWidget{
- const DeteksiPage({super.key});
+class DeteksiPage extends StatefulWidget {
+  const DeteksiPage({super.key});
 
- @override
- _DeteksiPageState createState() => _DeteksiPageState();
+  @override
+  State<DeteksiPage> createState() => _DeteksiPageState();
+}
 
- class _DeteksiPageState extends State<DeteksiPage>{
+// Pindahkan class State ke level yang sama (bukan di dalam class DeteksiPage)
+class _DeteksiPageState extends State<DeteksiPage> {
   File? _selectedImage;
   bool _isProcessing = false;
   String? _detectionResult;
   final ImagePicker _picker = ImagePicker();
 
-  Future<void>_cropImage(File imageFile) async{
+  Future<void> _getImage(ImageSource source) async {
+    final pickedFile = await _picker.pickImage(source: source);
+    
+    if (pickedFile != null) {
+      await _cropImage(File(pickedFile.path));
+    }
+  }
+
+  Future<void> _cropImage(File imageFile) async {
     final croppedFile = await ImageCropper().cropImage(
       sourcePath: imageFile.path,
-      AspectRatioPresets: [
+      aspectRatioPresets: [
         CropAspectRatioPreset.square,
         CropAspectRatioPreset.ratio3x2,
         CropAspectRatioPreset.original,
@@ -32,44 +42,43 @@ class DeteksiPage extends StatefulWidget{
           initAspectRatio: CropAspectRatioPreset.original,
           lockAspectRatio: false,
         ),
-        IOUiSettings(
+        IOSUiSettings(
           title: 'Crop Image',
         ),
       ],
     );
 
-    if(croppedFile != null){
-      setState((){
+    if (croppedFile != null) {
+      setState(() {
         _selectedImage = File(croppedFile.path);
         _detectionResult = null;
       });
     }
   }
 
-  Future<void> _detectImage() async{
+  Future<void> _detectImage() async {
     if (_selectedImage == null) return;
 
-    setState((){
+    setState(() {
       _isProcessing = true;
       _detectionResult = null;
     });
 
-    //ini buat nanti proses MLnya
+    // Simulasi proses ML
     await Future.delayed(const Duration(seconds: 2));
 
-    //buat hasil deteksi
     final randomResult = ['Segar', 'Tidak Segar', 'Sangat Segar'][DateTime.now().second % 3];
 
-    setState((){
+    setState(() {
       _isProcessing = false;
       _detectionResult = randomResult;
     });
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(
+      appBar: const MyAppBar(
         title: 'Deteksi',
         showBackButton: true,
       ),
@@ -78,7 +87,6 @@ class DeteksiPage extends StatefulWidget{
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            //tombol kamera
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -93,7 +101,7 @@ class DeteksiPage extends StatefulWidget{
                 ElevatedButton.icon(
                   icon: const Icon(Icons.photo_library),
                   label: const Text('Galeri'),
-                  onPressed: () => _getImage(ImageSource.camera),
+                  onPressed: () => _getImage(ImageSource.gallery), // Perbaiki dari camera ke gallery
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                   ),
@@ -101,8 +109,7 @@ class DeteksiPage extends StatefulWidget{
               ],
             ),
             const SizedBox(height: 20),
-
-            //tampilan gambar
+            
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
@@ -110,41 +117,42 @@ class DeteksiPage extends StatefulWidget{
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: _selectedImage == null
-                  ? const Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.image, size = 50, color: Colors.grey),
-                        SizedBox(height: 8),
-                        Text('Belum ada gambar dipilih'),
-                      ],
-                    ),
-                  )
-                  :Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Image.file(_selectedImage!, fit: BoxFit.contain),
-                      if (_isProcessing)
-                        Container(
-                          color: Colors.black54,
-                          child: const Center(
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                            ),
-                          ),
+                    ? const Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.image, size: 50, color: Colors.grey),
+                            SizedBox(height: 8),
+                            Text('Belum ada gambar dipilih'),
+                          ],
                         ),
-                    ],
-                  ),
+                      )
+                    : Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Image.file(_selectedImage!, fit: BoxFit.contain),
+                          if (_isProcessing)
+                            Container(
+                              color: Colors.black54,
+                              child: const Center(
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
               ),
             ),
-            const SizedBox(height: 20), 
-
-            //buat hasil deteksi
+            const SizedBox(height: 20),
+            
             if (_detectionResult != null)
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: _detectionResult == 'Segar' ? Colors.green.withOpacity(0.2) : Colors.red.withOpacity(0.2),
+                  color: _detectionResult == 'Segar' 
+                    ? Colors.green.withOpacity(0.2)
+                    : Colors.red.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
@@ -152,15 +160,13 @@ class DeteksiPage extends StatefulWidget{
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: _detectionResult == 'Segar' ? Colors.green : Color.red,
+                    color: _detectionResult == 'Segar' ? Colors.green : Colors.red,
                   ),
                   textAlign: TextAlign.center,
                 ),
               ),
-
-            const SizedBox(height: 20),
-
-            //untuk tombol deteksi
+            const SizedBox(height: 10),
+            
             ElevatedButton(
               onPressed: _selectedImage == null || _isProcessing ? null : _detectImage,
               style: ElevatedButton.styleFrom(
@@ -168,26 +174,27 @@ class DeteksiPage extends StatefulWidget{
                 backgroundColor: Colors.blueAccent,
                 disabledBackgroundColor: Colors.grey,
               ),
-              child: _isProcessing ? const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              child: _isProcessing
+                  ? const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Text('Memproses...'),
+                      ],
+                    )
+                  : const Text(
+                      'DETEKSI SEKARANG',
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ),
-                  SizedBox(width: 10),
-                  Text('Memproses...'),
-                ],
-              ) : const Text(
-                'Deteksi Sekarang',
-                style: TextStyle(fontSize: 16)
-                ),
             ),
-
           ],
         ),
       ),
