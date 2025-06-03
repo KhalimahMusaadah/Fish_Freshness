@@ -30,8 +30,9 @@ environment:
 dependencies:
   image_picker: ^1.0.2
   image_cropper: ^4.0.1
-  tflite_flutter: ^0.10.0
-  flutter:
+  tflite_flutter: ^0.9.1
+  tflite_flutter_helper: ^0.3.1 #untuk proses gambar
+  flutter: 
     sdk: flutter
 
 
@@ -67,6 +68,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/images/logo.png
+    - assets/models/model.tflite #menambahkan model ke flutter
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
