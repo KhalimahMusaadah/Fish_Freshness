@@ -24,7 +24,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.example.fish_freshness"
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 34 //ini upgrade SDK version untuk bisa memilih gambar dari galeri
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -45,8 +45,8 @@ android {
         applicationId "com.example.fish_freshness"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
+        minSdkVersion 21 //ubah minSDKVersion
+        targetSdkVersion 34 //ubah target SDK version
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
