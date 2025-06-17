@@ -1,3 +1,4 @@
+import 'package:fish_freshness/utils/ml_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -63,15 +64,21 @@ class _DeteksiPageState extends State<DeteksiPage> {
       _detectionResult = null;
     });
 
-    // Simulasi proses ML
-    await Future.delayed(const Duration(seconds: 2));
-
-    final randomResult = ['Segar', 'Tidak Segar', 'Sangat Segar'][DateTime.now().second % 3];
-
-    setState(() {
-      _isProcessing = false;
-      _detectionResult = randomResult;
-    });
+    //diubah jadi try catch buat handling error
+    try {
+      final result = await MLHelper.classifyImage(_selectedImage!);
+      setState(() {
+        _detectionResult = result;
+      });
+    } catch (e) {
+      setState(() {
+        _detectionResult = 'Error: ${e.toString()}';
+      });
+    } finally {
+      setState(() {
+        _isProcessing = false;
+      });
+    }
   }
 
   @override

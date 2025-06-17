@@ -27,6 +27,11 @@ android {
     compileSdkVersion 34 //ini upgrade SDK version untuk bisa memilih gambar dari galeri
     ndkVersion flutter.ndkVersion
 
+    aaptOptions {
+        noCompress 'tflite'
+        noCompress 'lite'
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

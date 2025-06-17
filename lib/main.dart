@@ -1,10 +1,13 @@
+import 'package:fish_freshness/utils/ml_helper.dart';
 import 'package:flutter/material.dart';
 import 'screens/SplashScreen.dart';
 import 'screens/HomePage.dart';
 import 'screens/DeteksiPage.dart';
 import 'screens/PanduanPage.dart';
 
-void main(){
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await MLHelper.initialize();  // Load model sebelum runApp
   runApp(const MyApp());
 }
 
