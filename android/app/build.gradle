@@ -27,6 +27,15 @@ android {
     compileSdkVersion 34 //ini upgrade SDK version untuk bisa memilih gambar dari galeri
     ndkVersion flutter.ndkVersion
 
+    configurations.all {
+        resolutionStrategy {
+            force 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22'
+            force 'org.jetbrains.kotlin:kotlin-reflect:1.8.22'
+            // Tambahkan ini untuk memaksa versi Kotlin plugin
+            force 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.22'
+        }
+    }
+
     aaptOptions {
         noCompress 'tflite'
         noCompress 'lite'
@@ -51,7 +60,7 @@ android {
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion 26 //ubah minSDKVersion
-        targetSdkVersion 33 //ubah target SDK version
+        targetSdkVersion 34 //ubah target SDK version
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
